@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.WindowConstants;
 
 import servicios.ServicioDocumento;
+import servicios.Util;
 
 import java.awt.BorderLayout;
 import java.awt.ScrollPane;
@@ -89,7 +90,7 @@ public class FrmOrdenamiento extends JFrame {
         tbOrdenamiento.add(btnBuscar);
         tbOrdenamiento.add(txtBuscar);
 
-        JScrollPane spDocumentos=new JScrollPane(tblDocumentos);
+        JScrollPane spDocumentos = new JScrollPane(tblDocumentos);
 
         getContentPane().add(tbOrdenamiento, BorderLayout.NORTH);
         getContentPane().add(spDocumentos, BorderLayout.CENTER);
@@ -103,7 +104,10 @@ public class FrmOrdenamiento extends JFrame {
 
     private void btnOrdenarBurbujaClick(ActionEvent evt) {
         if (cmbCriterio.getSelectedIndex() >= 0) {
-
+            Util.iniciarCronometro();
+            ServicioDocumento.ordenarBurbuja(cmbCriterio.getSelectedIndex());
+            txtTiempo.setText(Util.getTextoTiempoCronometro());
+            ServicioDocumento.mostrar(tblDocumentos);
         }
     }
 

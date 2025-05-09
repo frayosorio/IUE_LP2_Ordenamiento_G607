@@ -113,7 +113,10 @@ public class FrmOrdenamiento extends JFrame {
 
     private void btnOrdenarRapidoClick(ActionEvent evt) {
         if (cmbCriterio.getSelectedIndex() >= 0) {
-
+            Util.iniciarCronometro();
+            ServicioDocumento.ordenarRapido(cmbCriterio.getSelectedIndex());
+            txtTiempo.setText(Util.getTextoTiempoCronometro());
+            ServicioDocumento.mostrar(tblDocumentos);
         }
     }
 

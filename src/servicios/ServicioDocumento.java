@@ -82,4 +82,32 @@ public class ServicioDocumento {
         }
     }
 
+    private static int getPivote(int inicio, int fin, int criterio) {
+        int pivote = inicio;
+        Documento documentoPivote = documentos.get(pivote);
+        for (int i = inicio + 1; i <= fin; i++) {
+            if (esMayor(documentoPivote, documentos.get(i), criterio)) {
+                pivote++;
+                if (i != pivote)
+                    intercambiar(i, pivote);
+            }
+        }
+        if (inicio != pivote) {
+            intercambiar(inicio, pivote);
+        }
+        return pivote;
+    }
+
+    private static void ordernarRapido(int inicio, int fin, int criterio) {
+        if (fin > inicio) {
+            int pivote = getPivote(inicio, fin, criterio);
+            ordernarRapido(inicio, pivote - 1, criterio);
+            ordernarRapido(pivote + 1, fin, criterio);
+        }
+    }
+
+    public static void ordenarRapido(int criterio) {
+        ordernarRapido(0, documentos.size() - 1, criterio);
+    }
+
 }

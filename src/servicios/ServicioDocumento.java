@@ -110,4 +110,55 @@ public class ServicioDocumento {
         ordernarRapido(0, documentos.size() - 1, criterio);
     }
 
+    public static void ordenarInsercion(int criterio) {
+        for (int i = 1; i < documentos.size(); i++) {
+            var documentoActual = documentos.get(i);
+            int j = i - 1;
+            while (j >= 0 && esMayor(documentos.get(j), documentoActual, criterio)) {
+                documentos.set(j + 1, documentos.get(j));
+                j--;
+            }
+            documentos.set(j + 1, documentoActual);
+        }
+    }
+
+    private static List<Documento> combinar(List<Documento> lista1, List<Documento> lista2, int criterio) {
+        List<Documento> resultado = new ArrayList<>();
+        int i = 0;
+        int j = 0;
+        while (i < lista1.size() && j < lista2.size()) {
+            if (esMayor(lista1.get(i), lista2.get(j), criterio)) {
+                resultado.add(lista2.get(j));
+                j++;
+            } else {
+                resultado.add(lista1.get(i));
+                i++;
+            }
+        }
+        while (i < lista1.size()) {
+            resultado.add(lista1.get(i));
+            i++;
+        }
+        while (j < lista2.size()) {
+            resultado.add(lista2.get(j));
+            j++;
+        }
+        return resultado;
+    }
+
+    private static List<Documento> ordenarMezcla(List<Documento> lista, int criterio) {
+        if (lista.size() <= 1) {
+            return lista;
+        }
+        int mitad = lista.size() / 2;
+        List<Documento> lista1 = ordenarMezcla(lista.subList(0, mitad), criterio);
+        List<Documento> lista2 = ordenarMezcla(lista.subList(mitad, lista.size()), criterio);
+
+        return combinar(lista1, lista2, criterio);
+    }
+
+    public static void ordenarMezcla(int criterio) {
+        documentos = ordenarMezcla(documentos, criterio);
+    }
+
 }
